@@ -1,0 +1,967 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green-dark: #1E5A44; --green-mid: #3A7D5A; --green-light: #9FD3B1;
+    --green-pale: #E6F4EB; --green-accent: #2D8A5E;
+    --bg: #F7FBF8; --surface: #fff; --border: #E0EDE5;
+    --text: #1a2e24; --text2: #4a6b58; --text3: #7a9b88;
+    --radius: 16px; --radius-sm: 10px; --shadow: 0 2px 16px rgba(30,90,68,0.08);
+  }
+  body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* NAV */
+  .nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; height: 60px; gap: 8px; }
+  .nav-logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: var(--green-dark); cursor: pointer; }
+  .nav-logo .frog { width: 32px; height: 32px; background: var(--green-dark); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .nav-spacer { flex: 1; }
+  .nav-btn { padding: 7px 16px; border-radius: 20px; border: none; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+  .nav-btn.outline { background: transparent; border: 1.5px solid var(--green-dark); color: var(--green-dark); }
+  .nav-btn.outline:hover { background: var(--green-pale); }
+  .nav-btn.solid { background: var(--green-dark); color: #fff; }
+  .nav-btn.solid:hover { background: var(--green-mid); }
+  .nav-tab { padding: 6px 14px; border-radius: 20px; border: none; background: transparent; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500; color: var(--text2); transition: all 0.15s; }
+  .nav-tab:hover { background: var(--green-pale); color: var(--green-dark); }
+  .nav-tab.active { background: var(--green-pale); color: var(--green-dark); font-weight: 600; }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn 0.3s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* LANDING */
+  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 80px 60px 60px; max-width: 1100px; margin: 0 auto; align-items: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--green-pale); color: var(--green-dark); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+  .hero h1 { font-size: 48px; font-weight: 800; line-height: 1.15; color: var(--green-dark); margin-bottom: 16px; }
+  .hero h1 span { color: var(--green-accent); }
+  .hero p { font-size: 17px; color: var(--text2); line-height: 1.7; margin-bottom: 32px; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary { padding: 14px 28px; background: var(--green-dark); color: #fff; border: none; border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .btn-primary:hover { background: var(--green-mid); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(30,90,68,0.25); }
+  .btn-secondary { padding: 14px 28px; background: transparent; color: var(--green-dark); border: 2px solid var(--green-dark); border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .btn-secondary:hover { background: var(--green-pale); }
+  .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+  .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); width: 100%; max-width: 320px; }
+  .hero-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .frog-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #2D8A5E, #1E5A44); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .match-item { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 8px; cursor: pointer; transition: all 0.15s; }
+  .match-item:hover { border-color: var(--green-mid); background: var(--green-pale); }
+  .match-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+  .match-info { flex: 1; }
+  .match-name { font-size: 14px; font-weight: 600; }
+  .match-sub { font-size: 12px; color: var(--text3); }
+  .match-score { font-size: 15px; font-weight: 700; color: var(--green-dark); }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--green-pale); color: var(--green-dark); font-weight: 500; }
+
+  /* STATS */
+  .stats { display: flex; gap: 32px; padding: 40px 60px; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 36px; font-weight: 800; color: var(--green-dark); }
+  .stat-label { font-size: 14px; color: var(--text2); }
+
+  /* HOW IT WORKS */
+  .section { padding: 60px; max-width: 1100px; margin: 0 auto; }
+  .section-title { font-size: 32px; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+  .section-sub { font-size: 16px; color: var(--text2); margin-bottom: 40px; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+  .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; transition: all 0.2s; }
+  .step-card:hover { border-color: var(--green-mid); transform: translateY(-3px); box-shadow: var(--shadow); }
+  .step-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--green-dark); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 24px; }
+  .step-title { font-size: 16px; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+  .step-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+  /* AUTH */
+  .auth-wrap { min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+  .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; width: 100%; max-width: 420px; box-shadow: var(--shadow); }
+  .auth-title { font-size: 26px; font-weight: 800; color: var(--green-dark); margin-bottom: 6px; }
+  .auth-sub { font-size: 15px; color: var(--text2); margin-bottom: 28px; }
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .form-input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; color: var(--text); background: var(--bg); transition: border-color 0.15s; outline: none; }
+  .form-input:focus { border-color: var(--green-dark); background: #fff; }
+  .form-select { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; color: var(--text); background: var(--bg); outline: none; cursor: pointer; }
+  .form-select:focus { border-color: var(--green-dark); }
+  .auth-switch { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text2); }
+  .link-btn { background: none; border: none; color: var(--green-dark); font-weight: 600; cursor: pointer; font-family: inherit; font-size: 14px; text-decoration: underline; }
+
+  /* DASHBOARD */
+  .dash-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 60px); }
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 24px 16px; }
+  .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: var(--radius-sm); background: var(--green-pale); margin-bottom: 24px; }
+  .sidebar-name { font-size: 14px; font-weight: 600; }
+  .sidebar-role { font-size: 12px; color: var(--text3); }
+  .sidebar-menu { display: flex; flex-direction: column; gap: 4px; }
+  .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text2); transition: all 0.15s; border: none; background: transparent; font-family: inherit; width: 100%; text-align: left; }
+  .sidebar-item:hover { background: var(--green-pale); color: var(--green-dark); }
+  .sidebar-item.active { background: var(--green-dark); color: #fff; }
+  .dash-main { padding: 28px; overflow-y: auto; }
+  .dash-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .dash-sub { font-size: 15px; color: var(--text2); margin-bottom: 24px; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; }
+  .metric-val { font-size: 28px; font-weight: 800; color: var(--green-dark); }
+  .metric-lbl { font-size: 13px; color: var(--text3); margin-top: 2px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .card-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+
+  /* MATCHING PAGE */
+  .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .match-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: all 0.2s; cursor: pointer; }
+  .match-card:hover { border-color: var(--green-mid); box-shadow: var(--shadow); transform: translateY(-2px); }
+  .match-card-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+  .big-avatar { width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; flex-shrink: 0; }
+  .compat-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--green-pale); color: var(--green-dark); padding: 3px 10px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+  .compat-circle { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+  .score-ring { transform: rotate(-90deg); }
+  .match-card-name { font-size: 16px; font-weight: 700; }
+  .match-card-uni { font-size: 13px; color: var(--text3); }
+  .action-row { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-sm { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s; border: none; }
+  .btn-sm.primary { background: var(--green-dark); color: #fff; }
+  .btn-sm.primary:hover { background: var(--green-mid); }
+  .btn-sm.outline { background: transparent; border: 1.5px solid var(--border); color: var(--text2); }
+  .btn-sm.outline:hover { border-color: var(--green-mid); color: var(--green-dark); }
+
+  /* COMPAT PAGE */
+  .compat-page { max-width: 700px; margin: 0 auto; padding: 28px; }
+  .compat-header { display: flex; gap: 24px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .big-score { text-align: center; }
+  .big-score-num { font-size: 56px; font-weight: 800; color: var(--green-dark); line-height: 1; }
+  .big-score-label { font-size: 14px; color: var(--text3); font-weight: 500; }
+  .compat-factors { display: grid; gap: 12px; }
+  .factor-row { display: flex; align-items: center; gap: 12px; }
+  .factor-label { font-size: 14px; font-weight: 500; width: 160px; flex-shrink: 0; }
+  .factor-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .factor-bar { height: 100%; border-radius: 4px; background: var(--green-dark); transition: width 1s ease; }
+  .factor-pct { font-size: 13px; font-weight: 600; color: var(--green-dark); width: 36px; text-align: right; }
+
+  /* GROUPS PAGE */
+  .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .group-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: all 0.2s; }
+  .group-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+  .group-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px; }
+  .group-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .group-desc { font-size: 13px; color: var(--text2); margin-bottom: 14px; line-height: 1.5; }
+  .group-meta { display: flex; align-items: center; justify-content: space-between; }
+  .member-avatars { display: flex; }
+  .mini-avatar { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; margin-left: -6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+  .mini-avatar:first-child { margin-left: 0; }
+
+  /* PROFILE */
+  .profile-wrap { max-width: 700px; margin: 0 auto; padding: 28px; }
+  .profile-hero { background: linear-gradient(135deg, var(--green-dark), var(--green-mid)); border-radius: var(--radius); padding: 32px; color: #fff; display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+  .profile-pic { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700; border: 3px solid rgba(255,255,255,0.5); }
+  .profile-name { font-size: 24px; font-weight: 700; }
+  .profile-uni { font-size: 14px; opacity: 0.8; }
+  .profile-chips { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .chip { padding: 4px 12px; border-radius: 20px; background: rgba(255,255,255,0.2); font-size: 12px; font-weight: 500; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .skill-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .skill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-dark); flex-shrink: 0; }
+  .skill-name { font-size: 14px; font-weight: 500; }
+  .skill-level { font-size: 12px; color: var(--text3); margin-left: auto; }
+
+  /* NOTIFICATION */
+  .notif-list { display: flex; flex-direction: column; gap: 8px; }
+  .notif-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); cursor: pointer; transition: all 0.15s; }
+  .notif-item:hover { border-color: var(--green-light); background: var(--green-pale); }
+  .notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-dark); margin-top: 5px; flex-shrink: 0; }
+  .notif-text { font-size: 14px; line-height: 1.5; }
+  .notif-time { font-size: 12px; color: var(--text3); }
+
+  /* CHAT */
+  .chat-layout { display: grid; grid-template-columns: 260px 1fr; gap: 0; height: calc(100vh - 120px); }
+  .chat-list { border-right: 1px solid var(--border); overflow-y: auto; }
+  .chat-item { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .chat-item:hover { background: var(--green-pale); }
+  .chat-item.active { background: var(--green-pale); border-left: 3px solid var(--green-dark); }
+  .chat-preview { font-size: 12px; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+  .chat-window { display: flex; flex-direction: column; }
+  .chat-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; background: var(--bg); }
+  .msg { max-width: 70%; }
+  .msg.me { align-self: flex-end; }
+  .msg-bubble { padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
+  .msg.them .msg-bubble { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .msg.me .msg-bubble { background: var(--green-dark); color: #fff; border-bottom-right-radius: 4px; }
+  .msg-time { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .msg.me .msg-time { text-align: right; }
+  .chat-input-row { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: center; background: var(--surface); }
+  .chat-input { flex: 1; padding: 10px 16px; border: 1.5px solid var(--border); border-radius: 50px; font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.15s; }
+  .chat-input:focus { border-color: var(--green-dark); }
+
+  /* ONBOARDING WIZARD */
+  .wizard-wrap { max-width: 520px; margin: 0 auto; padding: 40px 24px; }
+  .wizard-header { text-align: center; margin-bottom: 32px; }
+  .wizard-step-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: all 0.3s; }
+  .dot.active { background: var(--green-dark); width: 24px; border-radius: 4px; }
+  .tag-select { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag-opt { padding: 8px 16px; border: 1.5px solid var(--border); border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.15s; font-family: inherit; background: var(--surface); color: var(--text); font-weight: 500; }
+  .tag-opt:hover { border-color: var(--green-mid); }
+  .tag-opt.selected { border-color: var(--green-dark); background: var(--green-pale); color: var(--green-dark); }
+
+  /* SCHEDULE */
+  .schedule-grid { display: grid; grid-template-columns: auto repeat(7,1fr); gap: 2px; font-size: 12px; }
+  .sch-header { text-align: center; font-weight: 600; padding: 6px 2px; color: var(--text2); }
+  .sch-time { padding: 6px 8px; color: var(--text3); text-align: right; font-size: 11px; }
+  .sch-cell { height: 28px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; transition: all 0.15s; }
+  .sch-cell.selected { background: var(--green-dark); border-color: var(--green-dark); }
+  .sch-cell:hover { background: var(--green-pale); border-color: var(--green-mid); }
+
+  /* LOADING */
+  .loading-overlay { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; gap: 16px; }
+  .spinner { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--green-dark); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+  /* AI RESULT ANIMATION */
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+  .slide-in { animation: slideIn 0.4s ease forwards; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 40px 24px; }
+    .dash-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .two-col { grid-template-columns: 1fr; }
+    .stats { padding: 24px; }
+    .section { padding: 24px; }
+    .hero h1 { font-size: 34px; }
+    .chat-layout { grid-template-columns: 1fr; }
+    .chat-list { display: none; }
+  }
+
+  .online-dot { width: 9px; height: 9px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+  .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  .filter-input { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; background: var(--surface); outline: none; transition: border-color 0.15s; }
+  .filter-input:focus { border-color: var(--green-dark); }
+  .empty-state { text-align: center; padding: 60px; color: var(--text3); }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; }
+</style>
+
+<h2 class="sr-only">CócStudy — AI Study Partner Matching Platform</h2>
+
+<nav class="nav" id="nav">
+  <div class="nav-logo" onclick="showPage('landing')">
+    <div class="frog">🐸</div>
+    CócStudy
+  </div>
+  <div class="nav-spacer"></div>
+  <div id="nav-public">
+    <button class="nav-btn outline" onclick="showPage('login')">Đăng nhập</button>
+    <button class="nav-btn solid" onclick="showPage('register')" style="margin-left:8px">Đăng ký</button>
+  </div>
+  <div id="nav-app" style="display:none; display:flex; gap:4px; align-items:center">
+    <button class="nav-tab" id="tab-discover" onclick="switchDash('discover')">Khám phá</button>
+    <button class="nav-tab" id="tab-groups" onclick="switchDash('groups')">Nhóm học</button>
+    <button class="nav-tab" id="tab-messages" onclick="switchDash('messages')">Tin nhắn</button>
+    <button class="nav-tab" id="tab-profile" onclick="switchDash('profile')">Hồ sơ</button>
+    <div style="position:relative; margin-left:4px">
+      <button class="nav-tab" onclick="switchDash('notifications')" style="font-size:18px">🔔</button>
+      <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:#ef4444;border:2px solid #fff"></span>
+    </div>
+    <button class="nav-btn outline" onclick="logout()" style="margin-left:8px;font-size:13px">Đăng xuất</button>
+  </div>
+</nav>
+
+<!-- LANDING PAGE -->
+<div class="page active" id="page-landing">
+  <div class="hero">
+    <div>
+      <div class="hero-badge">🎓 Nền tảng học tập thông minh</div>
+      <h1>Học cùng nhau,<br><span>tiến xa hơn</span><br>mỗi ngày</h1>
+      <p>Kết nối với bạn học phù hợp bằng AI, cùng nhau học tập và phát triển mỗi ngày.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('register')">🚀 Bắt đầu ngay</button>
+        <button class="btn-secondary" onclick="showPage('login')">Tìm hiểu thêm</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="frog-avatar">🐸</div>
+          <div>
+            <div style="font-weight:700;font-size:15px">Khám phá bạn học</div>
+            <div style="font-size:12px;color:var(--text3)">AI đang phân tích...</div>
+          </div>
+        </div>
+        <div class="match-item">
+          <div class="match-avatar" style="background:#e8f5e9;color:#2e7d32">MA</div>
+          <div class="match-info">
+            <div class="match-name">Minh Anh</div>
+            <div class="match-sub">Kinh tế đối ngoại • ĐH Ngoại thương</div>
+            <div class="tags"><span class="tag">Marketing</span><span class="tag">Excel</span><span class="tag">Tiếng Anh</span></div>
+          </div>
+          <div class="match-score">96%</div>
+        </div>
+        <div class="match-item">
+          <div class="match-avatar" style="background:#e3f2fd;color:#1565c0">HN</div>
+          <div class="match-info">
+            <div class="match-name">Hải Nam</div>
+            <div class="match-sub">CNTT • ĐH Bách Khoa</div>
+            <div class="tags"><span class="tag">Lập trình</span><span class="tag">AI</span></div>
+          </div>
+          <div class="match-score">92%</div>
+        </div>
+        <div class="match-item">
+          <div class="match-avatar" style="background:#fce4ec;color:#880e4f">PL</div>
+          <div class="match-info">
+            <div class="match-name">Phương Linh</div>
+            <div class="match-sub">Thiết kế đồ hoạ • ĐH Mỹ thuật</div>
+            <div class="tags"><span class="tag">Design</span><span class="tag">UI/UX</span></div>
+          </div>
+          <div class="match-score">89%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="stats">
+      <div class="stat-item"><div class="stat-num">12,400+</div><div class="stat-label">Sinh viên đang học</div></div>
+      <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Tỷ lệ kết nối thành công</div></div>
+      <div class="stat-item"><div class="stat-num">340+</div><div class="stat-label">Nhóm học hoạt động</div></div>
+      <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Đánh giá trung bình</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cách hoạt động</div>
+    <div class="section-sub">Chỉ 4 bước đơn giản để tìm được bạn học phù hợp nhất</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-icon">📝</div>
+        <div class="step-title">Đăng ký</div>
+        <div class="step-desc">Tạo hồ sơ học tập với thông tin về ngành học và mục tiêu</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🔍</div>
+        <div class="step-title">Khám phá</div>
+        <div class="step-desc">AI phân tích hàng ngàn sinh viên để tìm người phù hợp nhất</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🤝</div>
+        <div class="step-title">Kết nối</div>
+        <div class="step-desc">Gửi lời mời kết nối và bắt đầu trò chuyện với bạn học</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🏆</div>
+        <div class="step-title">Tiến bộ cùng nhau</div>
+        <div class="step-desc">Học nhóm hiệu quả, cùng nhau đạt kết quả tốt hơn</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div class="page" id="page-login">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div style="text-align:center;margin-bottom:24px"><span style="font-size:36px">🐸</span></div>
+      <div class="auth-title">Chào mừng trở lại!</div>
+      <div class="auth-sub">Đăng nhập để tiếp tục hành trình học tập</div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="email@university.edu.vn" id="login-email" value="demo@cocstudy.vn" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mật khẩu</label>
+        <input class="form-input" type="password" placeholder="••••••••" id="login-pw" value="demo1234" />
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:8px" onclick="doLogin()">Đăng nhập</button>
+      <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text3)">
+        Dùng tài khoản demo: demo@cocstudy.vn / demo1234
+      </div>
+      <div class="auth-switch">Chưa có tài khoản? <button class="link-btn" onclick="showPage('register')">Đăng ký ngay</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div class="page" id="page-register">
+  <div class="auth-wrap">
+    <div class="auth-card" style="max-width:480px">
+      <div style="text-align:center;margin-bottom:24px"><span style="font-size:36px">🐸</span></div>
+      <div class="auth-title">Tạo tài khoản</div>
+      <div class="auth-sub">Bắt đầu hành trình học tập thông minh</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label class="form-label">Họ</label>
+          <input class="form-input" placeholder="Nguyễn" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tên</label>
+          <input class="form-input" placeholder="An" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email trường</label>
+        <input class="form-input" type="email" placeholder="email@university.edu.vn" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Trường đại học</label>
+        <select class="form-select">
+          <option>ĐH Bách Khoa Hà Nội</option>
+          <option>ĐH Kinh tế Quốc dân</option>
+          <option>ĐH Ngoại thương</option>
+          <option>ĐH Quốc gia Hà Nội</option>
+          <option>Trường khác...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ngành học</label>
+        <input class="form-input" placeholder="VD: Công nghệ thông tin, Kinh tế..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mật khẩu</label>
+        <input class="form-input" type="password" placeholder="Ít nhất 8 ký tự" />
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:8px" onclick="doRegister()">Tạo tài khoản →</button>
+      <div class="auth-switch">Đã có tài khoản? <button class="link-btn" onclick="showPage('login')">Đăng nhập</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARDING WIZARD -->
+<div class="page" id="page-onboarding">
+  <div class="wizard-wrap">
+    <div class="wizard-header">
+      <div style="font-size:40px;margin-bottom:12px">🐸</div>
+      <div style="font-size:22px;font-weight:800;color:var(--green-dark)" id="wiz-title">Bạn học môn gì?</div>
+      <div style="font-size:15px;color:var(--text2);margin-top:6px" id="wiz-sub">Chọn các môn học bạn đang theo</div>
+    </div>
+    <div class="wizard-step-dots">
+      <div class="dot active" id="dot-0"></div>
+      <div class="dot" id="dot-1"></div>
+      <div class="dot" id="dot-2"></div>
+      <div class="dot" id="dot-3"></div>
+    </div>
+    <div id="wiz-content"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:28px">
+      <button class="btn-secondary" id="wiz-back" onclick="wizBack()" style="display:none">← Quay lại</button>
+      <div></div>
+      <button class="btn-primary" id="wiz-next" onclick="wizNext()">Tiếp theo →</button>
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="link-btn" onclick="enterApp()">Bỏ qua bước này</button>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD / APP -->
+<div class="page" id="page-app">
+  <div class="dash-layout">
+    <div class="sidebar">
+      <div class="sidebar-user">
+        <div class="match-avatar" style="width:36px;height:36px;background:#e8f5e9;color:#2e7d32;font-size:14px">NA</div>
+        <div>
+          <div class="sidebar-name">Nguyễn An</div>
+          <div class="sidebar-role">Bách Khoa HN</div>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <button class="sidebar-item active" id="sideitem-discover" onclick="switchDash('discover')">🔍 Khám phá</button>
+        <button class="sidebar-item" id="sideitem-groups" onclick="switchDash('groups')">👥 Nhóm học</button>
+        <button class="sidebar-item" id="sideitem-messages" onclick="switchDash('messages')">💬 Tin nhắn</button>
+        <button class="sidebar-item" id="sideitem-notifications" onclick="switchDash('notifications')">🔔 Thông báo <span style="margin-left:auto;background:#ef4444;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px">3</span></button>
+        <button class="sidebar-item" id="sideitem-profile" onclick="switchDash('profile')">👤 Hồ sơ</button>
+        <button class="sidebar-item" id="sideitem-settings" onclick="switchDash('settings')">⚙️ Cài đặt</button>
+      </div>
+    </div>
+    <div class="dash-main" id="dash-main">
+      <!-- Dynamic content loaded here -->
+    </div>
+  </div>
+</div>
+
+<script>
+const COLORS = ['#e8f5e9:#2e7d32','#e3f2fd:#1565c0','#fce4ec:#880e4f','#fff3e0:#e65100','#f3e5f5:#6a1b9a','#e0f7fa:#006064'];
+function getAvatarStyle(i) {
+  const [bg,cl] = COLORS[i % COLORS.length].split(':');
+  return `background:${bg};color:${cl}`;
+}
+
+const USERS = [
+  {id:1,name:'Minh Anh',uni:'ĐH Ngoại thương',major:'Kinh tế đối ngoại',score:96,tags:['Marketing','Excel','Tiếng Anh'],online:true,goal:'Thi chứng chỉ ACCA',gpa:'3.8',style:'Trực quan'},
+  {id:2,name:'Hải Nam',uni:'ĐH Bách Khoa',major:'CNTT',score:92,tags:['Lập trình','AI','Python'],online:true,goal:'Thực tập Google',gpa:'3.6',style:'Thực hành'},
+  {id:3,name:'Phương Linh',uni:'ĐH Mỹ thuật CN',major:'Thiết kế đồ hoạ',score:89,tags:['Design','UI/UX','Illustrator'],online:false,goal:'Xây dựng portfolio',gpa:'3.7',style:'Sáng tạo'},
+  {id:4,name:'Tuấn Kiệt',uni:'ĐH Kinh tế QD',major:'Tài chính - Ngân hàng',score:85,tags:['Excel','Python','Tài chính'],online:false,goal:'CFA Level 1',gpa:'3.5',style:'Logic'},
+  {id:5,name:'Thu Hà',uni:'ĐH KHXH & NV',major:'Ngôn ngữ Anh',score:82,tags:['IELTS','Dịch thuật','Báo chí'],online:true,goal:'Du học Anh 2025',gpa:'3.9',style:'Trực quan'},
+  {id:6,name:'Đức Anh',uni:'ĐH Bách Khoa',major:'Điện tử viễn thông',score:78,tags:['IoT','Embedded','C++'],online:false,goal:'Nghiên cứu sinh',gpa:'3.4',style:'Thực hành'},
+];
+
+const GROUPS = [
+  {id:1,icon:'💼',name:'Nhóm Marketing',desc:'Học về Brand & Content Strategy, Digital Marketing',members:4,next:'T3, 19:30',color:'#e8f5e9'},
+  {id:2,icon:'🤖',name:'AI & Machine Learning',desc:'Nghiên cứu Deep Learning và ứng dụng thực tế',members:3,next:'T5, 20:00',color:'#e3f2fd'},
+  {id:3,icon:'📊',name:'Ôn thi cuối kỳ',desc:'Toán cao cấp và xác suất thống kê',members:5,next:'Hằng ngày',color:'#fff3e0'},
+  {id:4,icon:'🎨',name:'UI/UX Design Club',desc:'Thực hành thiết kế giao diện và trải nghiệm người dùng',members:7,next:'T7, 14:00',color:'#fce4ec'},
+  {id:5,icon:'💰',name:'Tài chính & Đầu tư',desc:'Phân tích thị trường và quản lý danh mục đầu tư',members:6,next:'CN, 10:00',color:'#f3e5f5'},
+  {id:6,icon:'🌐',name:'English Speaking Club',desc:'Luyện nói tiếng Anh theo chủ đề hàng tuần',members:12,next:'T4, 18:00',color:'#e0f7fa'},
+];
+
+const NOTIFS = [
+  {icon:'🤝',text:'Minh Anh đã gửi lời mời kết nối',time:'2 phút trước',read:false},
+  {icon:'❤️',text:'Hải Nam đã thích bài viết của bạn',time:'1 giờ trước',read:false},
+  {icon:'👥',text:'Nhóm Marketing có lịch học mới: T3, 19:30',time:'3 giờ trước',read:false},
+  {icon:'🏆',text:'Bạn đã học 7 ngày liên tiếp! +20 XP',time:'1 ngày trước',read:true},
+  {icon:'💬',text:'Phương Linh đã trả lời tin nhắn của bạn',time:'2 ngày trước',read:true},
+];
+
+const MESSAGES = [
+  {user:USERS[0], msgs:[
+    {me:false,text:'Chào bạn! Mình thấy profile của bạn rất phù hợp với mình 😊',time:'10:30'},
+    {me:true,text:'Chào Minh Anh! Cảm ơn bạn đã kết nối. Bạn đang học môn gì thế?',time:'10:32'},
+    {me:false,text:'Mình đang học Marketing và chuẩn bị cho kỳ thi ACCA. Bạn có muốn học nhóm không?',time:'10:35'},
+    {me:true,text:'Tất nhiên rồi! Mình rảnh từ T3 đến T6 buổi tối nha',time:'10:36'},
+    {me:false,text:'Perfect! Vậy mình đặt lịch T3, 19:30 nhé?',time:'10:37'},
+  ]},
+  {user:USERS[1], msgs:[
+    {me:false,text:'Hey! Bạn có đang học Python không? Mình cần partner debug code',time:'09:15'},
+    {me:true,text:'Có chứ! Mình đang làm project ML. Bạn đang gặp lỗi gì vậy?',time:'09:20'},
+    {me:false,text:'Lỗi với tensor shape trong PyTorch. Khó ghê 😅',time:'09:21'},
+  ]},
+];
+
+let currentUser = null;
+let currentDash = 'discover';
+let selectedMatch = null;
+let wizStep = 0;
+let wizData = {subjects:[], style:'', goal:'', schedule:[]};
+
+const WIZ_STEPS = [
+  {title:'Bạn học môn gì?',sub:'Chọn các môn học bạn đang theo học',type:'subjects'},
+  {title:'Phong cách học của bạn?',sub:'Chọn phong cách học phù hợp nhất',type:'style'},
+  {title:'Mục tiêu học tập?',sub:'Bạn muốn đạt được gì?',type:'goal'},
+  {title:'Lịch rảnh của bạn?',sub:'Chọn các khung giờ bạn có thể học nhóm',type:'schedule'},
+];
+
+const SUBJECTS = ['Toán cao cấp','Vật lý','Hóa học','Lập trình','AI/ML','Data Science','Marketing','Kinh tế','Tài chính','Tiếng Anh','Thiết kế','Pháp luật','Y khoa','Kiến trúc','Kế toán','Quản trị'];
+const STYLES = ['📖 Đọc và ghi chép','🎯 Thực hành bài tập','🎥 Xem video học','👥 Học nhóm thảo luận','💡 Giải thích cho người khác','🗂️ Sơ đồ tư duy'];
+const GOALS = ['📝 Chuẩn bị thi cuối kỳ','🏆 Thi chứng chỉ quốc tế','💼 Chuẩn bị xin việc','🔬 Nghiên cứu khoa học','🌏 Du học','🚀 Khởi nghiệp'];
+
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.getElementById('nav-public').style.display = ['landing','login','register'].includes(p)?'flex':'none';
+  document.getElementById('nav-app').style.display = !['landing','login','register','onboarding'].includes(p)?'flex':'none';
+}
+
+function doLogin() {
+  const email = document.getElementById('login-email').value;
+  if(!email) { alert('Vui lòng nhập email'); return; }
+  currentUser = {name:'Nguyễn An', email};
+  showPage('onboarding');
+  renderWizStep();
+}
+
+function doRegister() {
+  showPage('onboarding');
+  renderWizStep();
+}
+
+function logout() {
+  currentUser = null;
+  showPage('landing');
+}
+
+function enterApp() {
+  showPage('app');
+  document.getElementById('nav-app').style.display='flex';
+  switchDash('discover');
+}
+
+function renderWizStep() {
+  const s = WIZ_STEPS[wizStep];
+  document.getElementById('wiz-title').textContent = s.title;
+  document.getElementById('wiz-sub').textContent = s.sub;
+  document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===wizStep); });
+  document.getElementById('wiz-back').style.display = wizStep>0?'block':'none';
+  document.getElementById('wiz-next').textContent = wizStep===WIZ_STEPS.length-1?'Hoàn thành 🎉':'Tiếp theo →';
+  const c = document.getElementById('wiz-content');
+  if(s.type==='subjects') {
+    c.innerHTML = `<div class="tag-select">${SUBJECTS.map(sub=>`<button class="tag-opt${wizData.subjects.includes(sub)?' selected':''}" onclick="toggleSubject('${sub}')">${sub}</button>`).join('')}</div>`;
+  } else if(s.type==='style') {
+    c.innerHTML = `<div style="display:grid;gap:10px">${STYLES.map(st=>`<button class="tag-opt${wizData.style===st?' selected':''}" onclick="selectStyle('${st}')" style="text-align:left;padding:14px 16px;border-radius:12px">${st}</button>`).join('')}</div>`;
+  } else if(s.type==='goal') {
+    c.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${GOALS.map(g=>`<button class="tag-opt${wizData.goal===g?' selected':''}" onclick="selectGoal('${g}')" style="text-align:left;padding:14px 16px;border-radius:12px">${g}</button>`).join('')}</div>`;
+  } else if(s.type==='schedule') {
+    const days=['T2','T3','T4','T5','T6','T7','CN'],times=['7-9h','9-11h','13-15h','15-17h','19-21h','21-23h'];
+    c.innerHTML=`<div class="schedule-grid">
+      <div class="sch-time"></div>${days.map(d=>`<div class="sch-header">${d}</div>`).join('')}
+      ${times.map(t=>`<div class="sch-time">${t}</div>${days.map((_,di)=>{const k=t+di;return`<div class="sch-cell${wizData.schedule.includes(k)?' selected':''}" onclick="toggleSch('${k}')"></div>`}).join('')}`).join('')}
+    </div>`;
+  }
+}
+
+function toggleSubject(s) { const i=wizData.subjects.indexOf(s); i<0?wizData.subjects.push(s):wizData.subjects.splice(i,1); renderWizStep(); }
+function selectStyle(s) { wizData.style=wizData.style===s?'':s; renderWizStep(); }
+function selectGoal(g) { wizData.goal=wizData.goal===g?'':g; renderWizStep(); }
+function toggleSch(k) { const i=wizData.schedule.indexOf(k); i<0?wizData.schedule.push(k):wizData.schedule.splice(i,1); renderWizStep(); }
+
+function wizNext() {
+  if(wizStep<WIZ_STEPS.length-1){ wizStep++; renderWizStep(); }
+  else { enterApp(); }
+}
+function wizBack() { if(wizStep>0){ wizStep--; renderWizStep(); } }
+
+function switchDash(view) {
+  currentDash = view;
+  document.querySelectorAll('.sidebar-item').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+  const si = document.getElementById('sideitem-'+view);
+  if(si) si.classList.add('active');
+  const ti = document.getElementById('tab-'+view);
+  if(ti) ti.classList.add('active');
+  const main = document.getElementById('dash-main');
+  if(view==='discover') renderDiscover(main);
+  else if(view==='groups') renderGroups(main);
+  else if(view==='messages') renderMessages(main);
+  else if(view==='notifications') renderNotifications(main);
+  else if(view==='profile') renderProfile(main);
+  else if(view==='settings') renderSettings(main);
+  else if(view==='compat') renderCompat(main);
+}
+
+function renderDiscover(el) {
+  el.innerHTML = `
+    <div class="dash-title">Khám phá bạn học 🔍</div>
+    <div class="dash-sub">AI đề xuất dựa trên phong cách và lịch học của bạn</div>
+    <div class="filter-bar">
+      <input class="filter-input" placeholder="🔍 Tìm kiếm sinh viên..." id="search-input" oninput="filterUsers()" style="flex:1;min-width:180px" />
+      <select class="form-select" style="width:160px" onchange="filterUsers()">
+        <option>Tất cả ngành</option><option>CNTT</option><option>Kinh tế</option><option>Thiết kế</option><option>Ngoại ngữ</option>
+      </select>
+      <button class="btn-sm primary" onclick="runAIMatch()">✨ AI Match</button>
+    </div>
+    <div class="match-grid" id="user-grid"></div>
+  `;
+  renderUserGrid(USERS);
+}
+
+function filterUsers() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const filtered = USERS.filter(u=>u.name.toLowerCase().includes(q)||u.major.toLowerCase().includes(q)||u.tags.some(t=>t.toLowerCase().includes(q)));
+  renderUserGrid(filtered);
+}
+
+function renderUserGrid(users) {
+  const g = document.getElementById('user-grid');
+  if(!g) return;
+  if(!users.length){ g.innerHTML=`<div class="empty-state"><div class="empty-icon">🔍</div><div>Không tìm thấy kết quả phù hợp</div></div>`; return; }
+  g.innerHTML = users.map((u,i)=>`
+    <div class="match-card slide-in" style="animation-delay:${i*0.05}s" onclick="viewCompat(${u.id})">
+      <div class="match-card-top">
+        <div class="big-avatar" style="${getAvatarStyle(i)}">${u.name.split(' ').slice(-2).map(x=>x[0]).join('')}</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div class="match-card-name">${u.name}</div>
+            ${u.online?`<div class="online-dot"></div>`:''}
+          </div>
+          <div class="match-card-uni">${u.major}</div>
+          <div style="font-size:12px;color:var(--text3)">${u.uni}</div>
+        </div>
+        <div>
+          <div style="font-size:20px;font-weight:800;color:var(--green-dark)">${u.score}%</div>
+          <div style="font-size:11px;color:var(--text3);text-align:right">phù hợp</div>
+        </div>
+      </div>
+      <div class="tags">${u.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:8px">🎯 ${u.goal} • GPA ${u.gpa}</div>
+      <div class="action-row">
+        <button class="btn-sm primary" onclick="event.stopPropagation();connectUser('${u.name}')">Kết nối</button>
+        <button class="btn-sm outline" onclick="event.stopPropagation();viewCompat(${u.id})">Xem chi tiết</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function runAIMatch() {
+  const g = document.getElementById('user-grid');
+  g.innerHTML = `<div class="loading-overlay" style="grid-column:1/-1"><div class="spinner"></div><div class="pulse" style="color:var(--text2)">AI đang phân tích độ tương thích...</div></div>`;
+  setTimeout(()=>{ renderUserGrid([...USERS].sort((a,b)=>b.score-a.score)); },1800);
+}
+
+function connectUser(name) {
+  const btn = event.target;
+  btn.textContent = '✓ Đã gửi';
+  btn.style.background = 'var(--green-light)';
+  btn.disabled = true;
+}
+
+function viewCompat(id) {
+  selectedMatch = USERS.find(u=>u.id===id);
+  switchDash('compat');
+}
+
+function renderCompat(el) {
+  const u = selectedMatch || USERS[0];
+  const idx = USERS.indexOf(u);
+  const factors = [
+    {label:'Môn học tương đồng', val:94},
+    {label:'Lịch học trùng', val:85},
+    {label:'Phong cách học', val:90},
+    {label:'Mục tiêu học tập', val:92},
+    {label:'GPA / Trình độ', val:88},
+    {label:'Sở thích cá nhân', val:78},
+  ];
+  el.innerHTML = `
+    <button class="btn-sm outline" onclick="switchDash('discover')" style="margin-bottom:16px">← Quay lại</button>
+    <div class="compat-page" style="padding:0">
+      <div class="compat-header">
+        <div class="big-score">
+          <div class="big-score-num">${u.score}%</div>
+          <div class="big-score-label">Độ tương thích</div>
+          <div style="margin-top:8px;font-size:13px;color:var(--green-dark);font-weight:600">🎉 Rất phù hợp!</div>
+        </div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div class="big-avatar" style="${getAvatarStyle(idx)};width:54px;height:54px">${u.name.split(' ').slice(-2).map(x=>x[0]).join('')}</div>
+            <div>
+              <div style="font-size:20px;font-weight:700">${u.name}</div>
+              <div style="color:var(--text2)">${u.major}</div>
+              <div style="font-size:13px;color:var(--text3)">${u.uni}</div>
+            </div>
+          </div>
+          <div class="tags">${u.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Phân tích AI chi tiết</div>
+        <div class="compat-factors">
+          ${factors.map(f=>`
+            <div class="factor-row">
+              <span class="factor-label">${f.label}</span>
+              <div class="factor-bar-wrap"><div class="factor-bar" style="width:${f.val}%"></div></div>
+              <span class="factor-pct">${f.val}%</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Điểm chung</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="padding:10px;background:var(--green-pale);border-radius:10px;font-size:13px">✅ Cùng mục tiêu học tập</div>
+          <div style="padding:10px;background:var(--green-pale);border-radius:10px;font-size:13px">✅ Lịch học tương đồng</div>
+          <div style="padding:10px;background:var(--green-pale);border-radius:10px;font-size:13px">✅ Cùng sở thích</div>
+          <div style="padding:10px;background:var(--green-pale);border-radius:10px;font-size:13px">✅ Đã học chung 2 môn</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-primary" style="flex:1" onclick="connectUser('${u.name}');this.textContent='✓ Đã gửi lời mời'">🤝 Bắt đầu kết nối</button>
+        <button class="btn-secondary" onclick="switchDash('messages')">💬 Nhắn tin</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderGroups(el) {
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div class="dash-title">Nhóm học 👥</div>
+      <button class="btn-sm primary" onclick="createGroup()">+ Tạo nhóm mới</button>
+    </div>
+    <div class="dash-sub">Tham gia hoặc tạo nhóm học tập</div>
+    <div class="groups-grid">
+      ${GROUPS.map((g,i)=>`
+        <div class="group-card">
+          <div class="group-icon" style="background:${g.color}">${g.icon}</div>
+          <div class="group-name">${g.name}</div>
+          <div class="group-desc">${g.desc}</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:10px">⏰ ${g.next}</div>
+          <div class="group-meta">
+            <div class="member-avatars">
+              ${Array.from({length:Math.min(g.members,4)},(_,j)=>`<div class="mini-avatar" style="${getAvatarStyle(j+i)}">${String.fromCharCode(65+j)}</div>`).join('')}
+              ${g.members>4?`<div class="mini-avatar" style="background:var(--border);color:var(--text3)">+${g.members-4}</div>`:''}
+            </div>
+            <button class="btn-sm ${i<2?'outline':'primary'}" onclick="joinGroup(this,'${g.name}')">${i<2?'Đã tham gia':'Tham gia'}</button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function joinGroup(btn, name) {
+  if(btn.classList.contains('primary')) { btn.textContent='✓ Đã tham gia'; btn.className='btn-sm outline'; }
+  else { btn.textContent='Tham gia'; btn.className='btn-sm primary'; }
+}
+function createGroup() { alert('Tính năng tạo nhóm mới đang được phát triển!'); }
+
+function renderMessages(el) {
+  let activeChat = 0;
+  el.innerHTML = `
+    <div class="dash-title" style="margin-bottom:16px">Tin nhắn 💬</div>
+    <div class="chat-layout" style="height:calc(100vh - 180px)">
+      <div class="chat-list">
+        ${MESSAGES.map((m,i)=>`
+          <div class="chat-item ${i===0?'active':''}" id="chat-item-${i}" onclick="selectChat(${i})">
+            <div class="match-avatar" style="${getAvatarStyle(i)};width:40px;height:40px">${m.user.name.split(' ').slice(-2).map(x=>x[0]).join('')}</div>
+            <div style="flex:1;overflow:hidden">
+              <div style="font-size:14px;font-weight:600">${m.user.name}</div>
+              <div class="chat-preview">${m.msgs[m.msgs.length-1].text}</div>
+            </div>
+            ${i===0?`<span style="background:var(--green-dark);color:#fff;border-radius:10px;padding:1px 6px;font-size:11px">2</span>`:''}
+          </div>
+        `).join('')}
+      </div>
+      <div class="chat-window" id="chat-window"></div>
+    </div>
+  `;
+  renderChatWindow(0);
+
+  window.selectChat = function(i) {
+    document.querySelectorAll('.chat-item').forEach(x=>x.classList.remove('active'));
+    document.getElementById('chat-item-'+i).classList.add('active');
+    renderChatWindow(i);
+  };
+}
+
+function renderChatWindow(i) {
+  const chat = MESSAGES[i];
+  const w = document.getElementById('chat-window');
+  if(!w) return;
+  w.innerHTML = `
+    <div class="chat-header">
+      <div class="match-avatar" style="${getAvatarStyle(i)}">${chat.user.name.split(' ').slice(-2).map(x=>x[0]).join('')}</div>
+      <div>
+        <div style="font-weight:600">${chat.user.name}</div>
+        <div style="font-size:12px;color:var(--text3)">${chat.user.major} • ${chat.user.uni}</div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
+        ${chat.user.online?`<div class="online-dot"></div><span style="font-size:12px;color:var(--text3)">Online</span>`:`<span style="font-size:12px;color:var(--text3)">Offline</span>`}
+      </div>
+    </div>
+    <div class="chat-messages" id="chat-msgs">
+      ${chat.msgs.map(m=>`
+        <div class="msg ${m.me?'me':'them'}">
+          <div class="msg-bubble">${m.text}</div>
+          <div class="msg-time">${m.time}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" placeholder="Nhập tin nhắn..." id="msg-input" onkeydown="if(event.key==='Enter')sendMsg(${i})" />
+      <button class="btn-sm primary" onclick="sendMsg(${i})" style="border-radius:50%;width:36px;height:36px;padding:0">➤</button>
+    </div>
+  `;
+  const msgs = document.getElementById('chat-msgs');
+  if(msgs) msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendMsg(chatIdx) {
+  const inp = document.getElementById('msg-input');
+  const txt = inp.value.trim();
+  if(!txt) return;
+  MESSAGES[chatIdx].msgs.push({me:true,text:txt,time:'Vừa xong'});
+  inp.value='';
+  renderChatWindow(chatIdx);
+}
+
+function renderNotifications(el) {
+  el.innerHTML = `
+    <div class="dash-title">Thông báo 🔔</div>
+    <div class="dash-sub" style="margin-bottom:20px">Cập nhật mới nhất từ bạn học và nhóm của bạn</div>
+    <div class="notif-list">
+      ${NOTIFS.map(n=>`
+        <div class="notif-item">
+          <div style="font-size:20px">${n.icon}</div>
+          <div style="flex:1">
+            <div class="notif-text" style="font-weight:${n.read?400:600}">${n.text}</div>
+            <div class="notif-time">${n.time}</div>
+          </div>
+          ${!n.read?`<div style="width:8px;height:8px;border-radius:50%;background:var(--green-dark);flex-shrink:0;margin-top:6px"></div>`:''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderProfile(el) {
+  el.innerHTML = `
+    <div class="profile-wrap" style="padding:0">
+      <div class="profile-hero">
+        <div class="profile-pic">NA</div>
+        <div>
+          <div class="profile-name">Nguyễn An</div>
+          <div class="profile-uni">Công nghệ thông tin • ĐH Bách Khoa Hà Nội</div>
+          <div class="profile-uni" style="margin-top:4px">GPA: 3.7 • Năm 3</div>
+          <div class="profile-chips">
+            <span class="chip">🎯 Lập trình</span>
+            <span class="chip">🤖 AI/ML</span>
+            <span class="chip">📊 Data Science</span>
+          </div>
+        </div>
+        <button class="btn-sm outline" style="margin-left:auto;color:#fff;border-color:rgba(255,255,255,0.5);align-self:flex-start" onclick="switchDash('settings')">✏️ Sửa</button>
+      </div>
+      <div class="two-col" style="margin-bottom:16px">
+        <div class="card">
+          <div class="card-title">Thống kê</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="metric-card"><div class="metric-val">47</div><div class="metric-lbl">Kết nối</div></div>
+            <div class="metric-card"><div class="metric-val">12</div><div class="metric-lbl">Nhóm học</div></div>
+            <div class="metric-card"><div class="metric-val">156</div><div class="metric-lbl">Giờ học</div></div>
+            <div class="metric-card"><div class="metric-val">320 XP</div><div class="metric-lbl">Điểm thưởng</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Kỹ năng</div>
+          <div class="skills-grid">
+            ${[['Python','Thành thạo'],['React','Trung cấp'],['SQL','Trung cấp'],['ML','Đang học'],['Docker','Đang học'],['Git','Thành thạo']].map(([n,l])=>`
+              <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">${n}</div><div class="skill-level">${l}</div></div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Giới thiệu</div>
+        <p style="font-size:14px;color:var(--text2);line-height:1.7">Mình là sinh viên năm 3 CNTT tại ĐH Bách Khoa. Đam mê AI/ML và Data Science. Đang tìm bạn học để cùng làm projects và chuẩn bị cho kỳ thực tập năm sau. Rảnh buổi tối T2-T5 và cuối tuần.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderSettings(el) {
+  el.innerHTML = `
+    <div style="max-width:580px">
+      <div class="dash-title">Cài đặt ⚙️</div>
+      <div class="dash-sub">Quản lý tài khoản và tuỳ chỉnh</div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Thông tin cá nhân</div>
+        <div style="display:grid;gap:14px">
+          <div class="form-group" style="margin:0"><label class="form-label">Họ và tên</label><input class="form-input" value="Nguyễn An" /></div>
+          <div class="form-group" style="margin:0"><label class="form-label">Email</label><input class="form-input" value="an.nguyen@hust.edu.vn" /></div>
+          <div class="form-group" style="margin:0"><label class="form-label">Trường đại học</label><input class="form-input" value="ĐH Bách Khoa Hà Nội" /></div>
+          <div class="form-group" style="margin:0"><label class="form-label">Ngành học</label><input class="form-input" value="Công nghệ thông tin" /></div>
+          <div class="form-group" style="margin:0"><label class="form-label">GPA</label><input class="form-input" value="3.7" style="width:100px" /></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Thông báo</div>
+        ${[['Lời mời kết nối mới','notif1',true],['Tin nhắn mới','notif2',true],['Cập nhật nhóm học','notif3',true],['Gợi ý bạn học','notif4',false]].map(([label,id,checked])=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+            <span style="font-size:14px">${label}</span>
+            <input type="checkbox" ${checked?'checked':''} id="${id}" style="width:18px;height:18px;accent-color:var(--green-dark);cursor:pointer" />
+          </div>
+        `).join('')}
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Quyền riêng tư</div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-label">Hiển thị hồ sơ</label>
+          <select class="form-select"><option>Tất cả sinh viên</option><option>Chỉ kết nối</option><option>Riêng tư</option></select>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="this.textContent='✓ Đã lưu';setTimeout(()=>this.textContent='Lưu thay đổi',2000)">Lưu thay đổi</button>
+    </div>
+  `;
+}
+
+// Show initial discover when dashboard loads
+window.onload = function() {
+  showPage('landing');
+};
+</script>
